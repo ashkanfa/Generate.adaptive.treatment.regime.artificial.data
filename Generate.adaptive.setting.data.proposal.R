@@ -24,7 +24,7 @@ bincorr = lower.tri.to.corr.mat(bincorr.vec,no.trt)
 
 
 ###################################################################################################
-setwd("c:\users\RandKID\OneDrive\Research\Proposal\Generating Simulated Data\Generated_data")
+setwd("c:/users/RandKID/OneDrive/Research/Proposal/Generating Simulated Data/Generated_data")
 library(MASS)
 library(gtools)
 library(nnet)
@@ -57,7 +57,7 @@ slot_0 = mod.jointly.generate.binary.normal( no.rows, no.bin, no.nor, prop.vec.b
 #mean.vec.nor=Vector of means for normal variables
 #var.nor=Vector of variances for normal variables
 #corr.vec=Specified correlations among all variables
-???????????????
+
 
 cov.data<-slot_0[[1]]
 colnames(cov.data) <- paste("x", 1:d ,sep = "")
@@ -160,6 +160,7 @@ select.cov.trt<-list()
 name.cov.trt<-list()
 cov.trt<-list()
 coef.cov.trt<-list()
+no.coef<-vector()
 
 for (i in 1:no.trt){
     select.cov.trt[[i]]    = sample(1:d.cov.trt, no.select.cov.trt[i], replace = FALSE)
@@ -207,6 +208,7 @@ for (i in 1:(no.stage-1)){
 t.state<-list()
 y.state<-list()
 w<-list()
+dim.y<-vector()
 
 for (i in 1:(no.stage-1)){
     for (j in 1:no.trt){
@@ -220,7 +222,7 @@ for (i in 1:(no.stage-1)){
 
 
 
-trt[[paste("p.",i,sep = "")]][,j]=round((exp(sum.row( w[[paste("stg",i,".trt",j,sep = "")]] ))) / (1+exp(sum.row( w[[paste("stg",i,".trt",j,sep = "")]] ))),digits = 1)
+ trt[[paste("p.",i,sep = "")]][,j]=round((exp(sum.row( w[[paste("stg",i,".trt",j,sep = "")]] ))) / (1+exp(sum.row( w[[paste("stg",i,".trt",j,sep = "")]] ))),digits = 1)
  ###### because for creating a multivariate binomial we should only have 1 marginal per trt,
  ###### and not 1 marginal per obs, there hould be a way to get the expectation of observational
  ###### p[i,] and have a truly marginal.
