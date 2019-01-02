@@ -1,4 +1,6 @@
 #input of the function
+rm(list=ls())
+
 set.seed(5)
 no.rows=500
 no.bin=19; no.nor=1
@@ -259,4 +261,5 @@ write.csv(trt[["stg.2"]],file = "Stage2_AllNewTreatments_Binary.csv",row.names=F
 write.csv(cbind(cov.data,trt[["stg.0"]],y[,1]),file = "NewCombinedbinaryconfoundingvar_stage1.csv",row.names=FALSE)
 write.csv(cbind(cov.data,trt[["stg.1"]],y[,2]),file = "NewCombinedbinaryconfoundingvar_stage2.csv",row.names=FALSE)
 
+write.csv(y,file = "y.csv",row.names=FALSE)
 
