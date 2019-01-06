@@ -94,7 +94,7 @@ cov.4    <-cov.data [ , floor(quantile(1:d,.75)+1) : d]                       #o
 ## Defining Response
 
 y          <-matrix(nrow = no.rows, ncol = no.stage)
-colnames(y)<-paste("Y.",0:(no.stage-1),sep="")
+colnames(y)<-paste("y.",0:(no.stage-1),sep="")
 
 
 ## coef.y is  the coefficient of y in linear association with trt of the next stage.
@@ -130,6 +130,7 @@ for (i in 1:no.stage){
 for (i in 1:no.trt){
     trt[["marg.p.0"]][i]<- round(runif(1,min = 0.1,max = 0.8),1)
     trt[["stg.0"]] [,i] <- rbinom(no.rows,1,trt[["marg.p.0"]][i])
+    colnames(trt[["stg.0"]]) <- paste("t", 1:no.trt ,".stg.0",sep = "")
     trt[["cor.trt.stg.0"]] <- cor(trt[["stg.0"]])
 }
 
@@ -211,11 +212,17 @@ t.state<-list()
 y.state<-list()
 w<-list()
 dim.y<-vector()
+#index<-matrix(nrow = no.stage-1 , ncol = no.trt)
 
 for (i in 1:(no.stage-1)){
     for (j in 1:no.trt){
 # t.state is the predictors of each trt per stage
- t.state[[paste("stg",i,".trt",j,sep = "")]] = cbind(cov.trt[[j]] , trt[[paste("stg.",i-1,sep = "")]], y[,paste("Y.",i-1,sep = "")])
+ t.state[[paste("stg",i,".trt",j,sep = "")]] = cbind(cov.trt[[j]] , trt[[paste("stg.",i-1,sep = "")]], y[,paste("y.",i-1,sep = "")])
+ 
+ #index[i,j]=dim(t.state[[paste("stg",i,".trt",j,sep = "")]])[2]
+ 
+ colnames(t.state[[paste("stg",i,".trt",j,sep = "")]])[ncol(t.state[[paste("stg",1,".trt",2,sep = "")]])]<-paste("y.",i-1,sep = "")
+ 
  t.state[[paste("coef.stg",i,".trt",j,sep = "")]] = c(coef.cov.trt[[j]], trt[[paste("coef.trt.stg.",i-1,sep = "")]][j,],
                                                      coef.y.trt[[paste("trt.",j,sep="")]][,i])
 
@@ -245,12 +252,14 @@ for (i in 1:(no.stage-1)){
  #            2-      Trts that will linearly contribute to outcome "trt.y"
  trt.y[[paste("stg.",i, sep="")]]      <-trt[[paste("stg.",i,sep = "")]][ , floor(median(1:no.trt)+1) : no.trt]
 
- y.state[[paste("stg.",i, sep="")]]  = cbind(cov.2[,which.cov.grp1.y],cov.4[,which.cov.grp2.y], y[,paste("Y.",i-1,sep = "")], trt.y[[paste("stg.",i, sep="")]])
+ y.state[[paste("stg.",i, sep="")]]  = cbind(cov.2[,which.cov.grp1.y],cov.4[,which.cov.grp2.y], trt.y[[paste("stg.",i, sep="")]], y[,paste("y.",i-1,sep = "")])
+ 
+ colnames(y.state[[paste("stg.",i, sep="")]])[ncol(y.state[[paste("stg.",i, sep="")]])] = paste("y.",i-1,sep = "")
  dim.y[i]  =  dim(y.state[[paste("stg.",i, sep="")]])[2]
  y.state[[paste("coef.stg.",i, sep="")]] = round(runif(dim.y[i],min = -0.7, max = 0.7),digits = 1)
 
- y[,paste("Y.",i,sep = "")]    = sum.row((rep.row(y.state[[paste("coef.stg.",i, sep="")]],no.rows))*y.state[[paste("stg.",i, sep="")]])
-
+ y[,paste("y.",i,sep = "")]    = sum.row((rep.row(y.state[[paste("coef.stg.",i, sep="")]],no.rows))*y.state[[paste("stg.",i, sep="")]])
+ 
 
 }
 
