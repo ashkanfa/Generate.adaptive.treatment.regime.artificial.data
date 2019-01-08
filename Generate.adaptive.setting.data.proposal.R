@@ -270,5 +270,9 @@ write.csv(trt[["stg.2"]],file = "Stage2_AllNewTreatments_Binary.csv",row.names=F
 write.csv(cbind(cov.data,trt[["stg.0"]],y[,1]),file = "NewCombinedbinaryconfoundingvar_stage1.csv",row.names=FALSE)
 write.csv(cbind(cov.data,trt[["stg.1"]],y[,2]),file = "NewCombinedbinaryconfoundingvar_stage2.csv",row.names=FALSE)
 
+write.csv(cbind(colnames(y.state[["stg.1"]]),y.state[["coef.stg.1"]]),file="true_outcome_model_stg1.csv")
+write.csv(cbind(colnames(y.state[["stg.2"]]),y.state[["coef.stg.2"]]),file="true_outcome_model_stg2.csv")
+
+y.state[["coef.stg.1"]]
 write.csv(y,file = "y.csv",row.names=FALSE)
 
