@@ -266,13 +266,26 @@ for (i in 1:(no.stage-1)){
 #trt for IPTW (MIMIC)
 write.csv(trt[["stg.1"]],file = "Stage1_AllNewTreatments_Binary.csv",row.names=FALSE)
 write.csv(trt[["stg.2"]],file = "Stage2_AllNewTreatments_Binary.csv",row.names=FALSE)
+
 #cov for IPTW (MIMIC)
 write.csv(cbind(cov.data,trt[["stg.0"]],y[,1]),file = "NewCombinedbinaryconfoundingvar_stage1.csv",row.names=FALSE)
 write.csv(cbind(cov.data,trt[["stg.1"]],y[,2]),file = "NewCombinedbinaryconfoundingvar_stage2.csv",row.names=FALSE)
 
+
+#simulated data set at each stage
+data_stage1<-cbind(cov.data,trt[["stg.0"]],trt[["stg.1"]],y[,1],y[,2])
+colnames(data_stage1)[(ncol(data_stage1)-1):ncol(data_stage1)] = c("y.0","y.1")
+
+data_stage2<-cbind(cov.data,trt[["stg.1"]],trt[["stg.2"]],y[,2],y[,3])
+colnames(data_stage2)[(ncol(data_stage2)-1):ncol(data_stage2)] <- c("y.1","y.2")
+
+write.csv(data_stage1,file = "data_stage1.csv",row.names=FALSE)
+write.csv(data_stage2,file = "data_stage2.csv",row.names=FALSE)
+
+# True outcome model at each stage
 write.csv(cbind(colnames(y.state[["stg.1"]]),y.state[["coef.stg.1"]]),file="true_outcome_model_stg1.csv")
 write.csv(cbind(colnames(y.state[["stg.2"]]),y.state[["coef.stg.2"]]),file="true_outcome_model_stg2.csv")
 
-y.state[["coef.stg.1"]]
+
 write.csv(y,file = "y.csv",row.names=FALSE)
 
