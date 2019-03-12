@@ -1,41 +1,16 @@
-#input of the function
-rm(list=ls())
 
-set.seed(5)
-no.rows=500
-no.bin=19; no.nor=1
-mean.vec.nor=0; var.nor=1
-prop.vec.bin=round(runif(19,min=0.3,max=0.8),digits = 1)
-d=no.bin+no.nor
-corr.vec=c(round(runif(d*(d-1)/4,min=0.01,max=0.3),digits = 2),round(runif(d*(d-1)/4,min=0.5,max=0.7),digits = 2))
-cmat = lower.tri.to.corr.mat(corr.vec,d)
-no.trt=6
-no.stage=3
-# min and max of the correlation can be input of the data generating function
-#bincorr.vec = round(runif(no.trt*(no.trt-1)/2,min=0.05,max=0.8),digits = 2)
-d1=floor(median(1:(no.trt*(no.trt-1)/2)))
-d2=(no.trt*(no.trt-1)/2)-d1
-bincorr.vec = c(rep(0.4,d1),rep(0.7,d2))
-bincorr = lower.tri.to.corr.mat(bincorr.vec,no.trt)
+generate.adaptive.data = function(no.rows,no.bin, no.nor, prop.vec.bin, mean.vec.nor,var.no, corr.vec, no.trt,no.stage,bincorr.vec){
+  require(MASS)
+  require(gtools)
+  require(nnet)
+  require(geepack)
+  require(bindata)
+  require(splitstackshape)
+  require(BinNor)
+  require("devtools")
+  require("githubinstall")
+#############################################################################################################################################################
 
-#sigma.star=compute.sigma.star(no.bin=19, no.nor=1, prop.vec.bin=round(runif(19,min=0.3,max=0.8),digits = 1),
-#                              corr.mat=cmat)
-#mydata=jointly.generate.binary.normal(no.rows,no.bin,no.nor,prop.vec.bin,
-#                                     mean.vec.nor,var.nor, sigma_star=sigma.star$sigma_star,
-#                                     continue.with.warning=TRUE)
-
-
-###################################################################################################
-setwd("c:/users/RandKID/OneDrive/Research/Proposal/Generating Simulated Data/Generated_data")
-library(MASS)
-library(gtools)
-library(nnet)
-library(geepack)
-library(bindata)
-library(splitstackshape)
-library(BinNor)
-
-####################################################################################################
 sum.row<-function(x){
     v<-matrix(nrow = dim(x)[1],ncol=1)
     for (i in 1:dim(x)[1])
@@ -46,10 +21,10 @@ sum.row<-function(x){
 rep.row<-function(x,n){
     matrix(rep(x,each=n),nrow=n)
 }
-####################################################################################################
+#############################################################################################################################################################
 
 
-####################################################################################################
+#############################################################################################################################################################
 
 slot_0 = mod.jointly.generate.binary.normal( no.rows, no.bin, no.nor, prop.vec.bin, mean.vec.nor, var.nor, corr.vec)
 #no.rows=Number of subjects
@@ -60,7 +35,7 @@ slot_0 = mod.jointly.generate.binary.normal( no.rows, no.bin, no.nor, prop.vec.b
 #var.nor=Vector of variances for normal variables
 #corr.vec=Specified correlations among all variables
 
-
+d=no.bin+no.nor
 cov.data<-slot_0[[1]]
 colnames(cov.data) <- paste("x", 1:d ,sep = "")
 
@@ -90,7 +65,7 @@ cov.4    <-cov.data [ , floor(quantile(1:d,.75)+1) : d]                       #o
 # and second half will not.
 
 
-####################################################################################################
+#############################################################################################################################################################
 ## Defining Response
 
 y          <-matrix(nrow = no.rows, ncol = no.stage)
@@ -112,7 +87,7 @@ for (i in 1:no.trt){
 
 #pre-evaluation y
 y[,1]   <- rnorm(n=no.rows,0,1)
-####################################################################################################
+#############################################################################################################################################################
 ## Define Trt list and the coefficients
 
 trt<-list()
@@ -145,7 +120,7 @@ for (i in 1:(no.stage-1)){
 }
 
 
-####################################################################################################
+#############################################################################################################################################################
 ## Creating dependency of trts to linear combination of covariates
 ## The coefficients created and the linear ombination will remain the same through all stages
 ## meaning that dependenct of trts to the covariates will not change
@@ -173,7 +148,7 @@ for (i in 1:no.trt){
     coef.cov.trt[[i]] = round(runif(no.coef[i],min = -0.85,max=0.90),digits = 1) #positive and negative coef
 }
 
-####################################################################################################
+#############################################################################################################################################################
 ## make the pool of outcome contributors covariates cov.2 and cov.4
 ## for simplicity, by default, we create linear dependency of y on 25% of cov.2 and
 ## and %25 of cov.4. this can easily change
@@ -204,8 +179,8 @@ for (i in 1:(no.stage-1)){
     trt.y[[paste("stg.",i, sep="")]] = matrix(nrow = no.rows,ncol =length(floor(median(1:no.trt)+1) : no.trt))
 }
 
-####################################################################################################
-## BINDING COVARIATES TREATMENT OF THE PREVIOUS STAGE AND RESPONSE OF THE PREVIOUS STAGE and
+#############################################################################################################################################################
+## BINDING COVARIATE-TREATMENT OF THE PREVIOUS STAGE AND RESPONSE OF THE PREVIOUS STAGE and
 ## name it t.state
 
 t.state<-list()
@@ -233,14 +208,12 @@ for (i in 1:(no.stage-1)){
 
  trt[[paste("p.",i,sep = "")]][,j]=round((exp(sum.row( w[[paste("stg",i,".trt",j,sep = "")]] ))) / (1+exp(sum.row( w[[paste("stg",i,".trt",j,sep = "")]] ))),digits = 1)
  ###### because for creating a multivariate binomial we should only have 1 marginal per trt,
- ###### and not 1 marginal per obs, there hould be a way to get the expectation of observational
- ###### p[i,] and have a truly marginal.
+ ###### and not 1 marginal per obs, there should be a way to get the expectation of observational
+ ###### p[i,] and have a truly marginal instead of mean.
  trt[[paste("marg.p.",i,sep = "")]][j] = round(mean(trt[[paste("p.",i,sep = "")]][,j]),digits = 2)
 
     }
  #if (j<no.trt){next}
-
-
  trt.list <- mod.generate.jointly.binary(no.rows,no.binary=no.trt,prop.vec.binary=trt[[paste("marg.p.",i,sep = "")]],
                                          corr.vec.binary=bincorr.vec, adjust.corrs = TRUE)
  trt[[paste("stg.",i,sep = "")]] <-trt.list[[1]]
@@ -288,4 +261,4 @@ write.csv(cbind(colnames(y.state[["stg.2"]]),y.state[["coef.stg.2"]]),file="true
 
 
 write.csv(y,file = "y.csv",row.names=FALSE)
-
+}
