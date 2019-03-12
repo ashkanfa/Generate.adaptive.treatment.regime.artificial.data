@@ -1,12 +1,4 @@
-require(mvtnorm)
-require(corpcor)
-require(psych)
-require(Matrix)
-require(BinNor)
-require(ICC)
-require(miscTools)
-require(car)
-require(plyr)
+
 #------------------------------------------------------------------------------------------------------------------
 #Step PRE: Some functions that is used later on in the mod.jointly.generate.binary.normal function algorithm 
 #and so on
