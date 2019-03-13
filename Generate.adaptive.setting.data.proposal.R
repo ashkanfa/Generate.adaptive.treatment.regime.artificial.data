@@ -7,7 +7,7 @@ no.bin=19; no.nor=1
 mean.vec.nor=0; var.nor=1
 prop.vec.bin=round(runif(19,min=0.3,max=0.8),digits = 1)
 d=no.bin+no.nor
-corr.vec=c(round(runif(d*(d-1)/4,min=0.01,max=0.3),digits = 2),round(runif(d*(d-1)/4,min=0.5,max=0.7),digits = 2))
+corr.vec=c(round(runif(d*(d-1)/4,min=0.6,max=0.9),digits = 2),round(runif(d*(d-1)/4,min=0.5,max=0.7),digits = 2))
 cmat = lower.tri.to.corr.mat(corr.vec,d)
 no.trt=6
 no.stage=3
@@ -15,7 +15,7 @@ no.stage=3
 #bincorr.vec = round(runif(no.trt*(no.trt-1)/2,min=0.05,max=0.8),digits = 2)
 d1=floor(median(1:(no.trt*(no.trt-1)/2)))
 d2=(no.trt*(no.trt-1)/2)-d1
-bincorr.vec = c(rep(0.4,d1),rep(0.7,d2))
+bincorr.vec = c(rep(0.6,d1),rep(0.8,d2))
 bincorr = lower.tri.to.corr.mat(bincorr.vec,no.trt)
 
 #sigma.star=compute.sigma.star(no.bin=19, no.nor=1, prop.vec.bin=round(runif(19,min=0.3,max=0.8),digits = 1),
@@ -259,7 +259,7 @@ for (i in 1:(no.stage-1)){
  y.state[[paste("coef.stg.",i, sep="")]] = round(runif(dim.y[i],min = -0.7, max = 0.7),digits = 1)
 
  y[,paste("y.",i,sep = "")]    = sum.row((rep.row(y.state[[paste("coef.stg.",i, sep="")]],no.rows))*y.state[[paste("stg.",i, sep="")]])
- 
+ y[,paste("y.",i,sep = "")]    = y[,paste("y.",i,sep = "")]+rnorm(no.rows, 0, 0.5)
 
 }
 
