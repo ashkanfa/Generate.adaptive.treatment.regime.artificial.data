@@ -49,7 +49,6 @@ generate.adaptive.data = function(no.rows,no.bin, no.nor, prop.vec.bin, mean.vec
   require(BinNor)
   require("devtools")
   require("githubinstall")
-  
 #############################################################################################################################################################
 
 >>>>>>> 53e5940dbb99087031136cbb4f75fd51a81cacc6
@@ -278,15 +277,9 @@ for (i in 1:(no.stage-1)){
 
 }
 
-simul_data<-list()
-
-for (i in 1:(no.stage-1)){
-  
-}
 #trt for IPTW (MIMIC)
 write.csv(trt[["stg.1"]],file = "Stage1_AllNewTreatments_Binary.csv",row.names=FALSE)
 write.csv(trt[["stg.2"]],file = "Stage2_AllNewTreatments_Binary.csv",row.names=FALSE)
-
 
 #cov for IPTW (MIMIC)
 write.csv(cbind(cov.data,trt[["stg.0"]],y[,1]),file = "NewCombinedbinaryconfoundingvar_stage1.csv",row.names=FALSE)

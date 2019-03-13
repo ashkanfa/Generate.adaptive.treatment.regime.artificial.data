@@ -52,7 +52,15 @@
 #??????? also explain that this step creates what A to D in explained before!!!
 #????? also give an example how to work with this algorithm.
 
-
+require(mvtnorm)
+require(corpcor)
+require(psych)
+require(Matrix)
+require(BinNor)
+require(ICC)
+require(miscTools)
+require(car)
+require(plyr)
 #------------------------------------------------------------------------------------------------------------------
 #Step PRE: Some functions that is used later on in the mod.jointly.generate.binary.normal function algorithm 
 #and so on
@@ -106,15 +114,6 @@ upper_tri_vec = function(m) {
 
 mod.jointly.generate.binary.normal=function(no.rows,no.bin,no.nor,
                                             prop.vec.bin,mean.vec.nor,var.nor,corr.vec, adjust.corrs = TRUE){
-  require(mvtnorm)
-  require(corpcor)
-  require(psych)
-  require(Matrix)
-  require(BinNor)
-  require(ICC)
-  require(miscTools)
-  require(car)
-  require(plyr)
     #Definition of the arguments are as follows:
     #no.rows=Number of subjects
     #no.bin=Number of binary variables (among these )
