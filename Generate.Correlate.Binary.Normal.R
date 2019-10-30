@@ -1,58 +1,4 @@
 
-#C-1 still in progress
-#B-4 still in progress
-#B-5 still in progress
-#B-1 independency should be checked
-
-#------------------------------------------------------------------------------------------------------------------
-#This simulated Data is able to produce the following structure so far (soft coded):
-#A -   Continuous, Discrete Structure in covariates and trts:
-
-#A-1      Optional mixture of Continuous, categorical and binary covariates.
-#A-2      Optional trts (decision variables or exposures or policies).
-#The default here is Binary.
-
-#A-3      Response: continuous
-
-#------------------------------------------------------------------------------------------------------------------
-#B -  Dependency Structure "across" variables at time t:
-
-#B-1      full/partial Independency or full/partial Multicollinearity across Trts
-#B-2      full/partial Independency or full/partial Multicollinearity across covariates
-#B-3      full/partial dependency btw covariates and trts.
-
-#B-4      Partial dependency of covariates and response: to discover performance of
-#the proposed models in exploring true underlying model and also performance of dimension
-#reduction techniques in selecting the true variables in the model.
-
-#B-5      Partial dependency of Trts and response: to explore the performance of modeling techniques
-#in keeping the true trts in the model.
-#------------------------------------------------------------------------------------------------------------------
-#C -  Dependency Structure "within" subject evolving in time:
-
-#C-1      Time-varying covariates
-#C-1-1         Time-varying covariates that do not vary as a function of time(e.g. temperature)
-#C-1-2         Time-varying covariates that does vary as a function of time
-#C-2      Dependency of an trt at stage t on previous trts
-#C-3      Optional Time-varying confounding
-#(response is an intermediate variable effecting trt in next stage and affected by trt from the last stage )
-#to explore best model that can incorporate IPTW weights that has been developed by Nilabh et al.
-#------------------------------------------------------------------------------------------------------------------
-#D       Simulate High-Dimensional data
-#D1      The algorithm is capable of creating high dimensional covariates or treatments. (High dimensionality                      "across" variables at time t)
-#D2      The algorithm is capable of creating determined number of stages. (High dimensionality                                             "within" variables at time t)
-
-
-
-#STEP 1-------Creating (binary and continuous) covariates & binary trts and the correlation structure across these variables
-#USING THE modified version of PACKAGE BinNor as the basis for creating mixture of Binary and continuous trts and covariates
-#  which are partially/fully correlated. by running the function "mod.jointly.generate.binary.normal"
-
-#????????????????????Explain how it works based on the paper here!!!!!!!!!!!!!
-#??????? also explain that this step creates what A to D in explained before!!!
-#????? also give an example how to work with this algorithm.
-
-
 #------------------------------------------------------------------------------------------------------------------
 #Step PRE: Some functions that is used later on in the mod.jointly.generate.binary.normal function algorithm 
 #and so on
@@ -106,16 +52,15 @@ upper_tri_vec = function(m) {
 
 mod.jointly.generate.binary.normal=function(no.rows,no.bin,no.nor,
                                             prop.vec.bin,mean.vec.nor,var.nor,corr.vec, adjust.corrs = TRUE){
-    
-    require(mvtnorm)
-    require(corpcor)
-    require(psych)
-    require(Matrix)
-    require(BinNor)
-    require(ICC)
-    require(miscTools)
-    require(car)
-    require(plyr)
+  require(mvtnorm)
+  require(corpcor)
+  require(psych)
+  require(Matrix)
+  require(BinNor)
+  require(ICC)
+  require(miscTools)
+  require(car)
+  require(plyr)
     #Definition of the arguments are as follows:
     #no.rows=Number of subjects
     #no.bin=Number of binary variables (among these )

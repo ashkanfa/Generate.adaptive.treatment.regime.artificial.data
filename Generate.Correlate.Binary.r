@@ -51,15 +51,6 @@ upper_tri_vec = function(m) {
 #Step 1: Creating the "Across" data
 
 mod.generate.jointly.binary=function(no.rows,no.binary,prop.vec.binary,corr.vec.binary, adjust.corrs = TRUE){
-    require(mvtnorm)
-    require(corpcor)
-    require(psych)
-    require(Matrix)
-    require(BinNor)
-    require(ICC)
-    require(miscTools)
-    require(car)
-    require(plyr)
     #Definition of the arguments are as follows:
     #no.rows=Number of subjects
     #no.bin=Number of binary variables (among these )
