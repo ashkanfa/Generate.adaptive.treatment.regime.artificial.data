@@ -1,4 +1,4 @@
-# Generate adaptive treatment artificial data
+# Generate adaptive treatment regime artificial data
 Inspired by  [dynamic treatment regime (DTR)](https://en.wikipedia.org/wiki/Dynamic_treatment_regime) or adaptive treatment strategy, the linear association (causal relationship) in the artificial data at each time slot are created, as shown by causal diagram in the following figure.
 
 ![alt text](https://github.com/ashkanfa/Generate.adaptive.data/blob/master/Causal_relation.PNG)
