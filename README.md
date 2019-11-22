@@ -12,3 +12,4 @@ Inspired by  [dynamic treatment regime (DTR)](https://en.wikipedia.org/wiki/Dyna
  
  2. Having covariates now, we can obtain the probability of each binary treatment by association with some controlled selection of 𝑋𝑂𝑇, 𝑋𝑇, the past treatments and the previous outcome by the following Eq:
  
+ ![alt text](https://github.com/ashkanfa/Generate.adaptive.data/blob/master/eq1.png)
