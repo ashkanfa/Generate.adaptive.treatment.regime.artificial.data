@@ -17,3 +17,12 @@ Inspired by  [dynamic treatment regime (DTR)](https://en.wikipedia.org/wiki/Dyna
  Then by predefined correlation matrix as explained above and approximate multivariate normal, correlated binary treatments are created. The algorithm divides the data in two groups: effective and non-effective treatments.
  
  3. Finally, the outcome at the end of time slot 𝑡 is created by the following linear association with the effective treatment, 𝑋𝑂, 𝑋𝑂𝑇 and the previous outcome and some interaction terms. 
+
+![alt text](https://github.com/ashkanfa/Generate.adaptive.data/blob/master/eq2.PNG)
+
+The design of artificial adaptive treatment data can be customized considering five factors:
+* total number of covariates and treatments in the model(covar,no.trt).
+* proportion of causal treatment among all treatments prop.trt
+* proportion of outcome (𝑋𝑂) covariates and confounders (𝑋𝑂𝑇) to the total number of covariates.
+* the correlation structure shown in the second figure gives the researcher the leverage to effectively study the performance of the  methods in distinguishing the causation from correlation, especially when the correlation between causal and spurious variables are high. For each block of correlation the default setting is to take into account three magnitude of correlation; low [0, 0.2], medium [0.3, 0.6], and high [0.7, 0.9].
+* Interaction structure of (a) no interaction and simultaneous combination of (b) treatment-treatment, (c) treatment-past treatment, (d) treatment-outcome covariate and (e) treatment-confounder are generated to get a more realistic estimate of the real model and provide the opportunity for us to compare the methodology in uncovering the true features under more complex model form.
