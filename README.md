@@ -1,1 +1,1 @@
-# Generate.adaptive.data
+# Generate adaptive treatment artificial data
