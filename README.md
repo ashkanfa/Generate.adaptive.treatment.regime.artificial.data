@@ -12,3 +12,8 @@ Inspired by  [dynamic treatment regime (DTR)](https://en.wikipedia.org/wiki/Dyna
  
  2. Having covariates now, we can obtain the probability of each binary treatment by association with some controlled selection of 𝑋𝑂𝑇, 𝑋𝑇, the past treatments and the previous outcome by the following Eq:
  
+ ![alt text](https://github.com/ashkanfa/Generate.adaptive.data/blob/master/eq1.PNG)
+ 
+ Then by predefined correlation matrix as explained above and approximate multivariate normal, correlated binary treatments are created. The algorithm divides the data in two groups: effective and non-effective treatments.
+ 
+ 3. Finally, the outcome at the end of time slot 𝑡 is created by the following linear association with the effective treatment, 𝑋𝑂, 𝑋𝑂𝑇 and the previous outcome and some interaction terms. 
